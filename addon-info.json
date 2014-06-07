@@ -1,0 +1,9 @@
+{
+  "name" : "helpex.vim",
+  "version" : "0.0.1",
+  "author" : "Michael Coles <michael.coles@gmail.com>",
+  "maintainer" : "Michael Coles <michael.coles@gmail.com>",
+  "repository" : {"type": "git", "url": "git://github.com/sanmiguel/helpex.vim.git"},
+  "dependencies" : {'ref': {}},
+  "description" : "Integrate elixir helper util into vim."
+}
