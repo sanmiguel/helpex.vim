@@ -10,7 +10,7 @@ endif
 " TODO: Start node
 " TODO: reconnect socket if necessary
 let s:elixir_namespace= '\<[A-Z][[:alnum:]]\+\(\.[A-Z][[:alnum:].]\+\)*.*$'
-let s:erlang_module= '\<:[a-z0-9_]\+('
+let s:erlang_module= ':\<'
 let s:elixir_fun_w_arity = '.*/[0-9]$'
 let s:elixir_module = '[A-Z][[:alnum:]_]\+\([A_Z][[:alnum:]_]+\)*'
 
@@ -40,11 +40,10 @@ function! helpex#omnifunc(findstart, base)
         let lnum = line('.')
         let column = col('.')
         let line = strpart(getline('.'), 0, column - 1)
-        if line =~ s:elixir_namespace
-            return match(line, s:elixir_namespace)
-        endif
         if line =~ s:erlang_module
             return match(line, s:erlang_module)
+        elseif line =~ s:elixir_namespace
+            return match(line, s:elixir_namespace)
         endif
 
         return col('.')
@@ -66,6 +65,8 @@ function! s:parse_suggestion(base, suggestion)
         return {'word': a:base.word.' ', 'abbr': a:suggestion, 'kind': 'f' }
     elseif a:suggestion =~ s:elixir_module
         return {'word': a:base.a:suggestion, 'abbr': a:suggestion, 'kind': 'm'}
+    elseif a:suggestion =~ s:erlang_module
+        return {'word': a:suggestion, 'abbr': a:suggestion, 'kind': 'f'}
     else
         return {'word': a:base.a:suggestion, 'abbr': a:suggestion }
     endif
