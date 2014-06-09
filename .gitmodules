@@ -1,0 +1,3 @@
+[submodule "helpex"]
+	path = helpex
+	url = https://github.com/sanmiguel/helpex
