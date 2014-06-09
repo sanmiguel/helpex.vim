@@ -35,6 +35,10 @@ function! s:source.option(opt)
   return ''
 endfunction
 
+function! s:source.get_keyword()
+  return ref#get_text_on_cursor('[[:alnum:]]\+\(\.[[:alnum:]]\+\)*')
+endfunction
+
 function! ref#elixir#define()
   return copy(s:source)
 endfunction
