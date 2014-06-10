@@ -4,6 +4,6 @@
   "author" : "Michael Coles <michael.coles@gmail.com>",
   "maintainer" : "Michael Coles <michael.coles@gmail.com>",
   "repository" : {"type": "git", "url": "git://github.com/sanmiguel/helpex.vim.git"},
-  "dependencies" : {'ref': {}},
+  "dependencies" : {'ref': {}, 'vimproc': {}},
   "description" : "Integrate elixir helper util into vim."
 }
