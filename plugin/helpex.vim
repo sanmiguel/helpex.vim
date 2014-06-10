@@ -14,13 +14,46 @@ let s:erlang_module= ':\<'
 let s:elixir_fun_w_arity = '.*/[0-9]$'
 let s:elixir_module = '[A-Z][[:alnum:]_]\+\([A_Z][[:alnum:]_]+\)*'
 
-let s:sock = vimproc#socket_open('localhost', 9999)
+" plugin/helpex.vim
+" helpex/rel...
+let s:helpex_script = expand("<sfile>:p:h:h") . '/helpex/rel/helpex/bin/helpex'
+
+let s:helpex_start = [s:helpex_script, 'start']
+let s:helpex_stop  = [s:helpex_script, 'stop']
+let s:helpex_ping  = [s:helpex_script, 'ping']
+
+"function! helpex#setup()
+"    call vimproc#system(['mix do deps.get, compile, release'])
+"endfunction
+
+function! helpex#start()
+    " Not convinced this is actually necessary - the runner script from
+    " exrm doesn't seem to duplicate a running node
+    let pong = helpex#ping()
+    if pong =~ '.*pong.*'
+        return
+    endif
+    return vimproc#system(s:helpex_start)
+endfunction
+
+function! helpex#ping()
+    return vimproc#system(s:helpex_ping)
+endfunction
+
+function! helpex#stop()
+    return vimproc#system(s:helpex_stop)
+endfunction
 
 function! helpex#socket()
-    if s:sock.eof
-        call s:sock.close() 
-        let s:sock = vimproc#socket_open('localhost', 9999)
+    " TODO: Need proper socket state detection
+    if !exists('s:sock')
+        let s:sock = vimproc#socket_open('localhost', 9998)
+    elseif !s:sock.is_valid || s:sock.eof
+        s:sock.close()
+        let s:sock = vimproc#socket_open('localhost', 9998)
+
     endif
+    return s:sock
 endfunction
 
 function! helpex#get_suggestions(hint)

@@ -1,1 +1,6 @@
 **.beam
+_build
+deps
+config
+rel
+mix.lock

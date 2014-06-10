@@ -1,8 +1,10 @@
 if exists('b:helpex_omnicomplete_loaded')
     finish
-else
-    let b:erlang_compiler_loaded = 1
 endif
+
+call helpex#start()
+call helpex#socket()
 
 setlocal omnifunc=helpex#omnifunc
 
+let b:helpex_omnicomplete_loaded = 1
