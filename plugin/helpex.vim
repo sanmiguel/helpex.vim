@@ -27,6 +27,31 @@ let s:process = {}
 
 function! helpex#start()
     let s:process = vimproc#popen2(s:startcmd)
+    return s:process
+endfunction
+
+function! helpex#stop()
+    call s:process.kill(0)
+    let [cond, status] = s:process.waitpid()
+    return [cond, status]
+endfunction
+
+function! helpex#restart()
+    call helpex#stop()
+    call helpex#start()
+endfunction
+
+function! helpex#status()
+    return s:process.checkpid()
+endfunction
+
+function! helpex#ensure()
+    let [cond, status] = s:process.checkpid()
+    if cond == 'run'
+        return s:process
+    else
+        return helpex#start()
+    endif
 endfunction
 
 function! helpex#debug()
@@ -48,6 +73,7 @@ function! helpex#stop()
 endfunction
 
 function! helpex#get_suggestions(hint)
+    call helpex#ensure()
     call s:process.stdin.write("COMPLETE " . a:hint . "\n")
     let reply = ""
     while reply !~# '.*\nEND-OF-COMPLETE\n'
