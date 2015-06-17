@@ -1,5 +1,5 @@
 " A set of Elixir development tools
-" Version: 0.1.0
+" Version: 0.2.0
 " Author:  sanmiguel <michael.coles@gmail.com>
 " License: Apache 2
 
