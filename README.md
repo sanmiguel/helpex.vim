@@ -12,6 +12,7 @@ Installation
 Issues
 ------
 
+ - Requires elixir > v1.0.4 (i.e. master) due to [https://github.com/elixir-lang/elixir/commit/8e65562808fe80b0c481dbfcf40e66b8c8872c67](this)
  - Requires [https://github.com/Shougo/vimproc.vim](vimproc)
  - No error checking
  - No options
