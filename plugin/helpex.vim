@@ -134,14 +134,14 @@ function! s:build_completions(base)
     if len(suggestions) == 0
         return -1
     elseif len(suggestions) == 1
-        return { 'words': suggestions, 'refresh': 'always' }
+        return suggestions
     elseif len(suggestions) > 1
         let [ newbase ; tail ] = suggestions
         if newbase !~ '.*\.$' " non-unique match
             " trim the last part - it'll be in all the subsequent matches
             let newbase = strpart(newbase, 0, match(newbase, '[^.]\+$'))
         endif
-        return { 'words': map(tail, 's:parse_suggestion(newbase, v:val)'), 'refresh': 'always'}
+        return map(tail, 's:parse_suggestion(newbase, v:val)')
     endif
 endfunction
 
