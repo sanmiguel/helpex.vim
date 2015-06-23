@@ -137,15 +137,12 @@ function! s:build_completions(base)
     elseif len(suggestions) == 1
         return { 'words': suggestions, 'refresh': 'always' }
     elseif len(suggestions) > 1
-        let [ head ; tail ] = suggestions
-        if head =~ '.*\.$' " Unique module match
-            return { 'words': map(tail, 's:parse_suggestion(head, v:val)'), 'refresh': 'always'}
-
-        elseif head =~ ':.*$' " erlang module match
-            return { 'words': map(tail, 's:parse_suggestion(":", v:val)'), 'refresh': 'always'}
-        else
-            return {'words': map(tail, 's:parse_suggestion("", v:val)'), 'refresh': 'always'}
+        let [ newbase ; tail ] = suggestions
+        if newbase !~ '.*\.$' " non-unique match
+            " trim the last part - it'll be in all the subsequent matches
+            let newbase = strpart(newbase, 0, match(newbase, '[^.]\+$'))
         endif
+        return { 'words': map(tail, 's:parse_suggestion(newbase, v:val)'), 'refresh': 'always'}
     endif
 endfunction
 
@@ -153,7 +150,7 @@ function! s:parse_suggestion(base, suggestion)
     echom "parsing : " . a:base
     if a:suggestion =~ s:elixir_fun_w_arity
         let [word, arity] = split(a:suggestion, "/")
-        return {'word': a:base.word, 'abbr': a:suggestion, 'kind': 'f' }
+        return {'word': a:base . word, 'abbr': a:suggestion, 'kind': 'f' }
     elseif a:suggestion =~ s:elixir_module
         return {'word': a:base.a:suggestion.'.', 'abbr': a:suggestion, 'kind': 'm'}
     elseif a:suggestion =~ s:erlang_module
