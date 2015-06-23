@@ -118,7 +118,6 @@ endfunction
 
 function! s:findstart()
     " return int 0 < n <= col('.')
-    " TODO: Probably not right
     let lnum = line('.')
     let column = col('.')
     let line = strpart(getline('.'), 0, column - 1)
@@ -127,7 +126,7 @@ function! s:findstart()
     elseif line =~ s:elixir_namespace
         return match(line, s:elixir_namespace)
     endif
-    return col('.')
+    return match(line, '\S\+')
 endfunction
 
 function! s:build_completions(base)
