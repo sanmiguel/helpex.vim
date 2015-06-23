@@ -147,9 +147,9 @@ function! s:build_completions(base)
 endfunction
 
 function! s:parse_suggestion(base, suggestion)
-    echom "parsing : " . a:base
+    "echom "base: " . a:base . " | suggestion:" . a:suggestion
     if a:suggestion =~ s:elixir_fun_w_arity
-        let [word, arity] = split(a:suggestion, "/")
+        let word = strpart(a:suggestion, 0, match(a:suggestion, '/[0-9]\+$'))
         return {'word': a:base . word, 'abbr': a:suggestion, 'kind': 'f' }
     elseif a:suggestion =~ s:elixir_module
         return {'word': a:base.a:suggestion.'.', 'abbr': a:suggestion, 'kind': 'm'}
