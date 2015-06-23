@@ -4,3 +4,5 @@ deps
 config
 rel
 mix.lock
+Gemfile.lock
+VimFlavor.lock
