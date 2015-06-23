@@ -1,4 +1,4 @@
-helpex.vim
+helpex.vim [![Build Status](https://travis-ci.org/sanmiguel/helpex.vim.svg?branch=vim-vspec-travis-integration)](https://travis-ci.org/sanmiguel/helpex.vim)
 ==========
 
 Scripts to integrate helpex into vim
