@@ -82,6 +82,21 @@ function! helpex#get_suggestions(hint)
     return s:clean(filter(split(reply, '\n'), 'v:val != "END-OF-COMPLETE"'))
 endfunction
 
+function! helpex#get_doc(word)
+    call helpex#ensure()
+    call s:process.stdin.write("DOC " . a:word . "\n")
+    let reply = ""
+    while reply !~# '.*\nEND-OF-DOC\n'
+        let reply .= s:process.stdout.read()
+    endwhile
+    return filter(split(reply, '\n'), 'v:val != "END-OF-DOC"')
+endfunction
+
+function! helpex#get_doc_suggestions(hint)
+    let suggestions = s:build_completions(a:hint)
+    return map(suggestions, 'v:val.word')
+endfunction
+
 function! s:clean1(suggestion)
     if a:suggestion =~ 'cmp:.*$'
         let [cmp ; str] = split(a:suggestion, ":")
@@ -125,6 +140,7 @@ function! s:build_completions(base)
         let [ head ; tail ] = suggestions
         if head =~ '.*\.$' " Unique module match
             return { 'words': map(tail, 's:parse_suggestion(head, v:val)'), 'refresh': 'always'}
+
         elseif head =~ ':.*$' " erlang module match
             return { 'words': map(tail, 's:parse_suggestion(":", v:val)'), 'refresh': 'always'}
         else
