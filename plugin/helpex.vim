@@ -118,7 +118,6 @@ endfunction
 
 function! s:findstart()
     " return int 0 < n <= col('.')
-    " TODO: Probably not right
     let lnum = line('.')
     let column = col('.')
     let line = strpart(getline('.'), 0, column - 1)
@@ -127,7 +126,7 @@ function! s:findstart()
     elseif line =~ s:elixir_namespace
         return match(line, s:elixir_namespace)
     endif
-    return col('.')
+    return match(line, '\S\+')
 endfunction
 
 function! s:build_completions(base)
@@ -135,25 +134,22 @@ function! s:build_completions(base)
     if len(suggestions) == 0
         return -1
     elseif len(suggestions) == 1
-        return { 'words': suggestions, 'refresh': 'always' }
+        return suggestions
     elseif len(suggestions) > 1
-        let [ head ; tail ] = suggestions
-        if head =~ '.*\.$' " Unique module match
-            return { 'words': map(tail, 's:parse_suggestion(head, v:val)'), 'refresh': 'always'}
-
-        elseif head =~ ':.*$' " erlang module match
-            return { 'words': map(tail, 's:parse_suggestion(":", v:val)'), 'refresh': 'always'}
-        else
-            return {'words': map(tail, 's:parse_suggestion("", v:val)'), 'refresh': 'always'}
+        let [ newbase ; tail ] = suggestions
+        if newbase !~ '.*\.$' " non-unique match
+            " trim the last part - it'll be in all the subsequent matches
+            let newbase = strpart(newbase, 0, match(newbase, '[^.]\+$'))
         endif
+        return map(tail, 's:parse_suggestion(newbase, v:val)')
     endif
 endfunction
 
 function! s:parse_suggestion(base, suggestion)
-    echom "parsing : " . a:base
+    "echom "base: " . a:base . " | suggestion:" . a:suggestion
     if a:suggestion =~ s:elixir_fun_w_arity
-        let [word, arity] = split(a:suggestion, "/")
-        return {'word': a:base.word, 'abbr': a:suggestion, 'kind': 'f' }
+        let word = strpart(a:suggestion, 0, match(a:suggestion, '/[0-9]\+$'))
+        return {'word': a:base . word, 'abbr': a:suggestion, 'kind': 'f' }
     elseif a:suggestion =~ s:elixir_module
         return {'word': a:base.a:suggestion.'.', 'abbr': a:suggestion, 'kind': 'm'}
     elseif a:suggestion =~ s:erlang_module
