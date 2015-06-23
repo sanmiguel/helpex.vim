@@ -178,7 +178,7 @@ defmodule Alchemist do
 
     defmodule Doc do
       def process!(exp) do
-        Code.eval_string("import IEx.Helpers \nApplication.put_env(:iex, :colors, [enabled: true])\nh(#{exp})", [], __ENV__)
+        Code.eval_string("import IEx.Helpers \nApplication.put_env(:iex, :colors, [enabled: false])\nh(#{exp})", [], __ENV__)
         IO.puts "END-OF-DOC"
       end
     end
