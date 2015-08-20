@@ -47,6 +47,9 @@ endfunction
 " 			The list of the form of [{source-name}, {keyword}] can
 " 			be returned.  In this case, the keyword is opened by
 " 			the specified source.
+function! s:source.get_keyword()
+    return ref#get_text_on_cursor('\%([A-Z][^.]\+\.\)*\w\+')
+endfunction
 
 " complete({query})			*ref-source-attr-complete()*
 " 			Optional.  Return the completion list for command-line.
