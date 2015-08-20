@@ -16,7 +16,7 @@ let s:elixir_module = '[A-Z][[:alnum:]_]\+\([A_Z][[:alnum:]_]+\)*'
 
 " plugin/helpex.vim
 " TODO Make env configurable (esp while we're writing tests?)
-let s:alchemist = expand("<sfile>:p:h:h") . '/tools/alchemist.exs'
+let s:alchemist = expand("<sfile>:p:h:h") . '/alchemist-server/run.exs'
 let s:startcmd = 'elixir ' . s:alchemist . ' dev'
 
 let s:process = {}
@@ -62,11 +62,6 @@ function! helpex#flush()
     echo s:process.stdout.read()
 endfunction
 
-function! helpex#ping()
-    call s:process.stdin.write("PING\n")
-    echo s:process.stdout.read()
-endfunction
-
 function! helpex#stop()
     call s:process.kill(0)
     return s:process.waitpid()
@@ -74,17 +69,20 @@ endfunction
 
 function! helpex#get_suggestions(hint)
     call helpex#ensure()
-    call s:process.stdin.write("COMPLETE " . a:hint . "\n")
+    let req = s:alchemist_format("COMPLETE", a:hint, "Elixir", [], [])
+    echom req . "\n"
+    call s:process.stdin.write(req . "\n\n")
     let reply = ""
     while reply !~# '.*\nEND-OF-COMPLETE\n'
         let reply .= s:process.stdout.read()
     endwhile
-    return s:clean(filter(split(reply, '\n'), 'v:val != "END-OF-COMPLETE"'))
+    return filter(split(reply, '\n'), 'v:val != "END-OF-COMPLETE"')
 endfunction
 
 function! helpex#get_doc(word)
     call helpex#ensure()
-    call s:process.stdin.write("DOC " . a:word . "\n")
+    let req = s:alchemist_format("DOC", a:word, "Elixir", [], [])
+    call s:process.stdin.write(req . "\n")
     let reply = ""
     while reply !~# '.*\nEND-OF-DOC\n'
         let reply .= s:process.stdout.read()
@@ -95,17 +93,6 @@ endfunction
 function! helpex#get_doc_suggestions(hint)
     let suggestions = s:build_completions(a:hint)
     return map(suggestions, 'v:val.word')
-endfunction
-
-function! s:clean1(suggestion)
-    if a:suggestion =~ 'cmp:.*$'
-        let [cmp ; str] = split(a:suggestion, ":")
-        return join(str, ":")
-    endif
-endfunction
-
-function! s:clean(suggestions)
-    return map(a:suggestions, 's:clean1(v:val)')
 endfunction
 
 function! helpex#omnifunc(findstart, base)
@@ -157,6 +144,15 @@ function! s:parse_suggestion(base, suggestion)
     else
         return {'word': a:suggestion, 'abbr': a:suggestion }
     endif
+endfunction
+
+function! s:alchemist_format(cmd, arg, context, imports, aliases)
+    " context: Module
+    " imports: List(Module)
+    " aliases: List({Alias, Module})
+    return a:cmd. " { \"" . a:arg . "\", [ context: ". a:context.
+                          \ ", imports: ". string(a:imports).
+                          \ ", aliases: ". string(a:aliases) . "] }"
 endfunction
 
 let g:loaded_helpex = 1
