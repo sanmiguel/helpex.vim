@@ -37,6 +37,11 @@ endfunction
 " 			Optional.  When every reference page is opened, this
 " 			function is called.  You can edit the |ref-viewer|
 " 			buffer in this timing to initialization.
+function! s:source.opened(query)
+    if exists(':AnsiEsc')
+        AnsiEsc
+    endif
+endfunction
 
 " get_keyword()				*ref-source-attr-get_keyword()*
 " 			Optional.  Pick up the keyword from current cursor
