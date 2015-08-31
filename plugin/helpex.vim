@@ -105,15 +105,21 @@ endfunction
 
 function! s:findstart()
     " return int 0 < n <= col('.')
-    let lnum = line('.')
-    let column = col('.')
-    let line = strpart(getline('.'), 0, column - 1)
-    if line =~ s:erlang_module
-        return match(line, s:erlang_module)
-    elseif line =~ s:elixir_namespace
-        return match(line, s:elixir_namespace)
+    "
+    " if the column left of us is whitespace, or [(){}[]]
+    " no word
+    let col = col('.')
+    " get the column to the left of us
+    if strpart(getline(line('.')), col-2, 1) =~ '[{}() 	]'
+        return col - 1
     endif
-    return match(line, '\S\+')
+    " TODO This is a pretty dirty way to go about this
+    " but it does seem to work for now.
+    let l:isk_bak = &isk
+    set isk+=.
+    let pos = searchpos('\<', 'bnW', line('.'))[1] - 1
+    let &isk = l:isk_bak
+    return pos
 endfunction
 
 function! s:build_completions(base)
