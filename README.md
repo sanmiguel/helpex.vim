@@ -9,7 +9,7 @@ Installation
 Either with your favourite plugin/addon manager (I use [vim-plug](https://github.com/junegunn/vim-plug)), or manually:
 
  - `git clone --recursive https://github.com/sanmiguel/helpex.vim /path/to/helpex.vim`
- - Add /path/to/helpex.vim to your `runtimepath` as usual. 
+ - Add `/path/to/helpex.vim` to your `runtimepath` as usual. 
 
 Dependencies
 ------------
