@@ -22,11 +22,18 @@ Dependencies
 Usage
 -----
 
-  Completion
-  -----
+  Completion via omni-complete: `<C-x><C-o>`
+
   [![asciicast](https://asciinema.org/a/27165.png)](https://asciinema.org/a/27165)
 
-  Documentation
+  -----
+
+  Documentation, via `:Ref elixir ...`
+
+  [![asciicast](https://asciinema.org/a/27166.png)](https://asciinema.org/a/27166)
+
+  NB: There is currently a problem the way ref changes the content of the buffer if you try to open a subsequent ref page from within the ref buffer. Simple workaround (for now) is to close the ref buffer between `:Ref` invocations.
+
   -----
 
 Issues
