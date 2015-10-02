@@ -15,7 +15,7 @@ Dependencies
 ------------
 
  - elixir > v1.0.4 due to [this commit](https://github.com/elixir-lang/elixir/commit/8e65562808fe80b0c481dbfcf40e66b8c8872c67)
- - [vimproc](https://github.com/Shougo/vimproc.vim)
+ - [vimproc](https://github.com/Shougo/vimproc.vim) (NB: vimproc has a manual post-install step to build it - some plugin managers seem to deal with this OK, some do not - check the vimproc README for details of what to do)
  - [vim-ref](http://github.com/Thinca/vim-ref)
  - Optional: [AnsiEsc](http://www.drchip.org/astronaut/vim/index.html#ANSIESC)
 
@@ -41,3 +41,17 @@ Issues
 
  - No error checking
  - No options
+
+
+Troubleshooting
+--------------
+
+To check if helpex has even managed to start alchemist.exs, try:
+
+`:echo helpex#status()`
+
+If it's running, it should print `['run', 0]`. If there's been a problem it'll print `['exit', 1]`. If it prints nothing something might be chomping the output. In which case, try `:echom string(helpex#status()) | messages`.
+
+If it's not running, most likely there's a problem either with `vimproc` (post-install build step required), or there's a problem with how erlang and elixir are available in vim's env. Check e.g. `:!elixir --version` to verify.
+
+If it is running, and still doesn't work please contact me (@sanmiguel on elixir slack, gen_ale_drinker in #elixir-lang on freenode), or raise an issue here on github!
