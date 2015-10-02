@@ -9,6 +9,7 @@ Installation
 Either with your favourite plugin/addon manager (I use [vim-plug](https://github.com/junegunn/vim-plug)), or manually:
 
  - `git clone --recursive https://github.com/sanmiguel/helpex.vim /path/to/helpex.vim`
+   - Note that [alchemist-server](https://github.com/tonini/alchemist-server) is included as a git submodule, so you must use recursive clone.
  - Add `/path/to/helpex.vim` to your `runtimepath` as usual. 
 
 Dependencies
