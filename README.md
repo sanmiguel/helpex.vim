@@ -1,24 +1,28 @@
 helpex.vim [![Build Status](https://travis-ci.org/sanmiguel/helpex.vim.svg?branch=master)](https://travis-ci.org/sanmiguel/helpex.vim)
 ==========
 
-Scripts to integrate helpex into vim
+Scripts to integrate the excellent [alchemist-server] into vim.
+Currently supported features are:
+
+ - code-completion
+ - integrated docs (via [vim-ref])
 
 Installation
 ------------
 
-Either with your favourite plugin/addon manager (I use [vim-plug](https://github.com/junegunn/vim-plug)), or manually:
+Either with your favourite plugin/addon manager (I use [vim-plug]), or manually:
 
  - `git clone --recursive https://github.com/sanmiguel/helpex.vim /path/to/helpex.vim`
-   - Note that [alchemist-server](https://github.com/tonini/alchemist-server) is included as a git submodule, so you must use recursive clone.
+   - Note that [alchemist-server] is included as a git submodule, so you must use recursive clone.
  - Add `/path/to/helpex.vim` to your `runtimepath` as usual. 
 
 Dependencies
 ------------
 
  - elixir > v1.0.4 due to [this commit](https://github.com/elixir-lang/elixir/commit/8e65562808fe80b0c481dbfcf40e66b8c8872c67)
- - [vimproc](https://github.com/Shougo/vimproc.vim) (NB: vimproc has a manual post-install step to build it - some plugin managers seem to deal with this OK, some do not - check the vimproc README for details of what to do)
- - [vim-ref](http://github.com/Thinca/vim-ref)
- - Optional: [AnsiEsc](http://www.drchip.org/astronaut/vim/index.html#ANSIESC)
+ - [vimproc] (NB: vimproc has a manual post-install step to build it - some plugin managers seem to deal with this OK, some do not - check the vimproc README for details of what to do)
+ - [vim-ref]
+ - Optional: [AnsiEsc]
 
 Usage
 -----
@@ -56,3 +60,9 @@ If it's running, it should print `['run', 0]`. If there's been a problem it'll p
 If it's not running, most likely there's a problem either with `vimproc` (post-install build step required), or there's a problem with how erlang and elixir are available in vim's env. Check e.g. `:!elixir --version` to verify.
 
 If it is running, and still doesn't work please contact me (@sanmiguel on elixir slack, gen_ale_drinker in #elixir-lang on freenode), or raise an issue here on github!
+
+[alchemist-server]: https://github.com/tonini/alchemist-server
+[vim-ref]: https://github.com/Thinca/vim-ref
+[vimproc]: https://github.com/Shougo/vimproc.vim
+[AnsiEsc]: http://www.drchip.org/astronaut/vim/index.html#ANSIESC
+[vim-plug]: https://github.com/junegunn/vim-plug
