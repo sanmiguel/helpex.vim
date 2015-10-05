@@ -20,7 +20,7 @@ Dependencies
 ------------
 
  - elixir > v1.0.4 due to [this commit](https://github.com/elixir-lang/elixir/commit/8e65562808fe80b0c481dbfcf40e66b8c8872c67)
- - [vimproc] (NB: vimproc has a manual post-install step to build it - some plugin managers seem to deal with this OK, some do not - check the vimproc README for details of what to do)
+ - [vimproc] NB: vimproc has a manual post-install step to build it - some plugin managers seem to deal with this OK, some do not - check the vimproc README for details of what to do
  - [vim-ref]
  - Optional: [AnsiEsc]
 
@@ -60,6 +60,7 @@ If it's running, it should print `['run', 0]`. If there's been a problem it'll p
 If it's not running, most likely there's a problem either with `vimproc` (post-install build step required), or there's a problem with how erlang and elixir are available in vim's env. Check e.g. `:!elixir --version` to verify.
 
 If it is running, and still doesn't work please contact me (@sanmiguel on elixir slack, gen_ale_drinker in #elixir-lang on freenode), or raise an issue here on github!
+
 
 [alchemist-server]: https://github.com/tonini/alchemist-server
 [vim-ref]: https://github.com/Thinca/vim-ref
