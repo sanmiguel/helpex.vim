@@ -16,7 +16,7 @@ let s:elixir_module = '[A-Z][[:alnum:]_]\+\([A_Z][[:alnum:]_]+\)*'
 
 " plugin/helpex.vim
 " TODO Make env configurable (esp while we're writing tests?)
-let s:alchemist = expand("<sfile>:p:h:h") . '/alchemist-server/run.exs'
+let s:alchemist = '"' . expand("<sfile>:p:h:h") . '/alchemist-server/run.exs"'
 let s:startcmd = 'elixir ' . s:alchemist . ' dev'
 
 let s:process = {}
