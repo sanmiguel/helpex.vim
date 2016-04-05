@@ -1,3 +1,9 @@
+Support suspended:
+==========
+
+I no longer have the time to maintain this plugin, but @slashmili is doing great work with [alchemist.vim](https://github.com/slashmili/alchemist.vim). If you're still using helpex.vim, please consider upgrading your experience to alchemist.vim!
+
+
 helpex.vim [![Build Status](https://travis-ci.org/sanmiguel/helpex.vim.svg?branch=master)](https://travis-ci.org/sanmiguel/helpex.vim)
 ==========
 
